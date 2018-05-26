@@ -1,0 +1,182 @@
+<template>
+  <div class="wrapper" ref="wrapper">
+
+    <Renderer
+      v-if="size"
+      ref="renderer"
+      @toucher="gotToucher"
+      :size="size"
+      @renderer="(v) => { renderer = v }"
+    >
+    </Renderer>
+    <button @click="lookAt('xy')">XY</button>
+    <input type="checkbox" v-model="helper.xy">
+
+
+    <button @click="lookAt('xz')">XZ</button>
+    <input type="checkbox" v-model="helper.xz">
+
+    <button @click="lookAt('yz')">YZ</button>
+    <input type="checkbox" v-model="helper.yz">
+
+    <PerspectiveCamera
+      :fov="75"
+      :aspect="size.aspect"
+      :near="1"
+      :far="1000"
+      :position="camPos"
+      @camera="(v) => { camera = v }"
+      @refresh="() => { camera = v;  }"
+    />
+
+    <Scene @scene="(v) => { scene = v }">
+
+      <!-- x plane -->
+      <Object3D :rz="PI / 2.0" v-if="helper.yz">
+        <PlaneHelper :colorAxis="'#000000'" :colorGrid="'rgb(185,185,255)'" />
+      </Object3D>
+
+      <!-- y plane -->
+      <Object3D :ry="PI / 2.0" v-if="helper.xz">
+        <PlaneHelper :colorAxis="'#000000'" :colorGrid="'rgb(185,255,185)'" />
+      </Object3D>
+
+      <!-- xy plane -->
+      <Object3D :rx="PI / 2.0" v-if="helper.xy">
+        <PlaneHelper :colorAxis="'#000000'" :colorGrid="'rgb(255,185,185)'" />
+      </Object3D>
+
+      <Object3D :pz="200">
+        <PointLight />
+      </Object3D>
+
+      <Object3D :pz="0">
+        <LineStrip :key="plotter.id" v-for="plotter in plotters">
+          <DrawCountBufferGeometry :formula="plotter.formula" :step="plotter.stepper" />
+          <LineBasicMaterial :color="plotter.color" />
+        </LineStrip>
+      </Object3D>
+    </Scene>
+
+  </div>
+</template>
+
+<script>
+import * as THREE from 'three'
+/* eslint-disable */
+import 'imports-loader?THREE=three!three/examples/js/controls/OrbitControls.js'
+/* eslint-enable */
+
+import Bundle from '@/components/ThreeJS/Bundle.js'
+// import simpleVS from '@/components/Shaders/Simple/vs.vert'
+// import simpleFS from '@/components/Shaders/Simple/fs.frag'
+
+export default {
+  props: {
+    plotters: {}
+  },
+  components: {
+    ...Bundle
+  },
+  computed: {
+  },
+  methods: {
+    lookAt (lookAtCase) {
+      if (lookAtCase === 'xy') {
+        this.camera.position.x = 0
+        this.camera.position.y = 0
+        this.camera.position.z = 200
+      } else if (lookAtCase === 'xz') {
+        this.camera.position.x = 0
+        this.camera.position.y = 200
+        this.camera.position.z = 0
+      } else if (lookAtCase === 'yz') {
+        this.camera.position.x = 200
+        this.camera.position.y = 0
+        this.camera.position.z = 0
+      }
+      this.camera.lookAt(this.scene)
+    },
+    gotToucher (toucher) {
+      this.toucher = toucher
+      this.control = new THREE.OrbitControls(this.camera, this.toucher)
+    },
+    renderWebGL () {
+      this.animatable.time.value = window.performance.now() * 0.001
+      if (this.control) {
+        this.control.update()
+      }
+      if (this.scene && this.camera && this.renderer) {
+        this.renderer.render(this.scene, this.camera)
+      }
+    }
+  },
+  data () {
+    return {
+      helper: {
+        xy: true,
+        yz: true,
+        xz: true
+      },
+      camPos: { x: 0, y: 0, z: 200 },
+      PI: Math.PI,
+      world: {
+        rx: 0,
+        ry: 0,
+        rz: 0
+      },
+      THREE,
+      control: false,
+      toucher: false,
+      animatable: {
+        time: { value: 0 }
+      },
+      size: false,
+      renderer: false,
+      scene: false,
+      camera: false
+    }
+  },
+  created () {
+
+  },
+  mounted () {
+    var resizer = () => {
+      var rect = this.$refs['wrapper'].getBoundingClientRect()
+      this.size = {
+        width: rect.width,
+        height: rect.height,
+        aspect: rect.width / rect.height
+      }
+      this.$nextTick(() => {
+        this.$refs['renderer'].resize()
+      })
+    }
+    window.addEventListener('resize', resizer, false)
+    resizer()
+
+    var self = this
+    function loop () {
+      self.rAFID = window.requestAnimationFrame(loop)
+      self.renderWebGL()
+    }
+    self.rAFID = window.requestAnimationFrame(loop)
+  }
+}
+</script>
+
+<style scoped>
+.full{
+  width: 100%;
+  height: 100%;
+}
+.plotters{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.plotter{
+  width: 500px;
+}
+</style>
