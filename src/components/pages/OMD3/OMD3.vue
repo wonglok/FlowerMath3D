@@ -1,6 +1,5 @@
 <template>
 <div class="full">
-  Oh My Dear 3D Math Learner
   <Viewer class="viewer" :plotters="plotters" />
   <Editor class="editor" :plotters="plotters" />
 </div>
@@ -50,7 +49,7 @@ for (var i = 0; i < max; i++) {
 // mover2D
 //output global
 var positions = output.positions;
-var max = 4096;
+var max = 2048;
 
 var index = 0;
 // mover2D.reset();
@@ -80,9 +79,6 @@ for (var i = 0; i < max; i++) {
 var positions = output.positions;
 var max = 1024;
 
-var x = 0;
-var y = 0;
-var z = 0;
 var index = 0;
 for (var i = 0; i < max; i++) {
   let e = i / max * Math.PI * 2.0;
@@ -95,7 +91,6 @@ for (var i = 0; i < max; i++) {
   positions[index++] = y;
   positions[index++] = z;
 }
-
 `,
           stepper: 0.75
         },
@@ -135,22 +130,46 @@ for (var i = 0; i < max; i++) {
 .full{
   width: 100%;
   height: 100%;
-
-  display: flex;
 }
 .viewer{
   border: silver solid 1px;
   position: fixed;
   top: 0px;
   left: 0px;
-  width: 500px;
-  height: 500px;
+  width: calc(100% - 500px);
+  height: calc(100% - 100px);
 }
 .editor{
   position: absolute;
   top: 0px;
   right: 0px;
   width: 500px;
-  height: 500px;
+  height: 100%;
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
+@media screen and (max-width: 600px){
+  .full{
+    display: flex;
+    flex-direction: column;
+  }
+  .viewer{
+    position: relative;
+    top: unset;
+    left: unset;
+    width: 100%;
+    height: 400px;
+  }
+  .editor{
+    position: relative;
+    top: unset;
+    right: unset;
+    margin-top: 50px;
+    width: 100%;
+    height: 400px;
+  }
+}
+
 </style>

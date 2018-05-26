@@ -12,7 +12,7 @@
           v-model="plotter.formula"
           @input="() => { isDirty = true; }"
           theme="chrome"
-          width="500px"
+          width="100%"
           :height="'500'"
         >
         </ACE>

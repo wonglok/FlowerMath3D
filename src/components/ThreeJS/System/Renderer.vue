@@ -32,6 +32,7 @@ export default {
 
     this.resize()
     this.renderer.domElement.style.marginBottom = '-6px'
+    this.renderer.domElement.style['-webkit-tap-highlight-color'] = 'transparent'
     this.$refs.mounter.appendChild(this.renderer.domElement)
 
     this.$emit('renderer', this.renderer)

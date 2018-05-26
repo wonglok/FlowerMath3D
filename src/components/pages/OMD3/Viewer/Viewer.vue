@@ -46,9 +46,9 @@
         <PlaneHelper :colorAxis="'#000000'" :colorGrid="'rgb(255,185,185)'" />
       </Object3D>
 
-      <Object3D :pz="200">
+      <!-- <Object3D :pz="200">
         <PointLight />
-      </Object3D>
+      </Object3D> -->
 
       <Object3D :pz="0">
         <LineStrip :key="plotter.id" v-for="plotter in plotters">
@@ -169,6 +169,8 @@ export default {
     }
     window.addEventListener('resize', resizer, false)
     resizer()
+
+    this.$nextTick(resizer)
 
     var self = this
     function loop () {

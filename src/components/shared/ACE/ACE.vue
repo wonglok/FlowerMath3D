@@ -134,11 +134,12 @@ export default {
       require('brace/ext/searchbox')
 
       editor.$blockScrolling = Infinity
-      editor.setOption('enableEmmet', true)
+      // editor.setOption('enableEmmet', true)
       editor.getSession().setMode('ace/mode/' + this.getLangFromPath(this.filepath))
       editor.setTheme('ace/theme/' + theme)
       editor.session.setValue(this.value, 1)
       editor.session.setOptions({ tabSize: 2, useSoftTabs: true })
+      editor.setOptions({ fontSize: '16px' })
       editor.session.setOption('useWorker', false)
 
       editor.on('change', function () {
