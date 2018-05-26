@@ -37,7 +37,6 @@ for (var i = 0; i < max; i++) {
   positions[index++] = mover3D.position.y;
   positions[index++] = mover3D.position.z;
 }
-
 `,
           stepper: 0.2
         },
