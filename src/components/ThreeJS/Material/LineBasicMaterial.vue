@@ -26,7 +26,7 @@ export default {
     setup () {
       this.material = new THREE.LineBasicMaterial({
         color: new THREE.Color(this.color),
-        linewidth: 1
+        linewidth: 0.25
       })
       this.$parent.$emit('material', this.material)
     }
