@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import * as TWEEN from '@tweenjs/tween.js'
+
 import * as THREE from 'three'
 /* eslint-disable */
 import 'imports-loader?THREE=three!three/examples/js/controls/OrbitControls.js'
@@ -83,25 +85,38 @@ export default {
   methods: {
     lookAt (lookAtCase) {
       if (lookAtCase === 'xy') {
-        this.camera.position.x = 0
-        this.camera.position.y = 0
-        this.camera.position.z = 200
+        new TWEEN.Tween(this.camera.position)
+          .to({ x: 0, y: 0, z: 200 }, 1200)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onUpdate(() => {
+            this.camera.lookAt(this.scene)
+          })
+          .start()
       } else if (lookAtCase === 'xz') {
-        this.camera.position.x = 0
-        this.camera.position.y = 200
-        this.camera.position.z = 0
+        new TWEEN.Tween(this.camera.position)
+          .to({ x: 0, y: 200, z: 0 }, 1200)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onUpdate(() => {
+            this.camera.lookAt(this.scene)
+          })
+          .start()
       } else if (lookAtCase === 'yz') {
-        this.camera.position.x = 200
-        this.camera.position.y = 0
-        this.camera.position.z = 0
+        new TWEEN.Tween(this.camera.position)
+          .to({ x: 200, y: 0, z: 0 }, 1200)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onUpdate(() => {
+            this.camera.lookAt(this.scene)
+          })
+          .start()
       }
-      this.camera.lookAt(this.scene)
     },
     gotToucher (toucher) {
       this.toucher = toucher
       this.control = new THREE.OrbitControls(this.camera, this.toucher)
     },
     renderWebGL () {
+      TWEEN.update()
+
       this.animatable.time.value = window.performance.now() * 0.001
       if (this.control) {
         this.control.update()
