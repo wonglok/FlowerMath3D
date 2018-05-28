@@ -54,7 +54,7 @@ var index = 0;
 // mover2D.reset();
 
 for (var i = 0; i < max; i++) {
-  mover2D.turnBy(45.2, 'xy');
+  mover2D.turnBy(45.1, 'xy');
   mover2D.moveBy(205 * i / max);
 
   positions[index++] = mover2D.position.x;

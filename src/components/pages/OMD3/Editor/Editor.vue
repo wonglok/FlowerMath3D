@@ -3,7 +3,7 @@
     <div class="plotters" :key="plotter.id" v-for="plotter in plotters">
       <div class="plotter">
         <input type="text" v-model="plotter.color">
-        <input type="color" v-model="plotter.color">
+        <input class="color" type="color" v-model="plotter.color">
         <input type="range" min="0" max="1.0" step="0.00001" v-model="plotter.stepper">
         <button @click="cloneThis(plotter)">Clone me</button>
         <ACE
@@ -48,6 +48,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.color{
+  width: 40px;
+}
 </style>
