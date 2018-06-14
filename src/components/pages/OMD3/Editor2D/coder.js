@@ -108,8 +108,8 @@ export const makeDemo1 = () => {
         },
         {
           id: rID(),
-          put: false,
-          pull: false,
+          put: true,
+          pull: true,
           type: 'repeat',
           data: {
             times: 500
@@ -137,8 +137,8 @@ export const makeDemo1 = () => {
             },
             {
               id: rID(),
-              put: false,
-              pull: false,
+              put: true,
+              pull: true,
               type: 'mover.moveBy',
               data: {
                 amount: 1
