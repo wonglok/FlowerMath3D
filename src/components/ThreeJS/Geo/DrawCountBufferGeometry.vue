@@ -34,8 +34,11 @@ export default {
   },
   methods: {
     setup () {
+      let positions = []
+
       // update positions
       var mover = {
+        index: 0,
         angle: 0,
         position: { x: 0, y: 0, z: 0 },
         plane: 'xy',
@@ -45,6 +48,9 @@ export default {
           mover.position.x = 0
           mover.position.y = 0
           mover.position.z = 0
+        },
+        usePlane: (plane) => {
+          mover.plane = plane
         },
         turnBy: (by, plane) => {
           mover.angle += by / 360 * (Math.PI * 2)
@@ -69,9 +75,14 @@ export default {
             mover.position.y += dx
             mover.position.z += dy
           }
+
+          positions[mover.index++] = mover.position.x
+          positions[mover.index++] = mover.position.y
+          positions[mover.index++] = mover.position.z
         }
       }
       var mover3D = {
+        index: 0,
         position: new THREE.Vector3(),
         object3D: new THREE.Object3D(),
         reset: () => {
@@ -98,23 +109,24 @@ export default {
 
           mover3D.object3D.updateMatrix()
           mover3D.position.applyMatrix4(mover3D.object3D.matrix)
+
+          positions[mover3D.index++] = mover3D.position.x
+          positions[mover3D.index++] = mover3D.position.y
+          positions[mover3D.index++] = mover3D.position.z
         }
       }
 
       /* eslint-disable */
-      var makeVertex = new Function('output', 'mover2D', 'mover3D', this.formula)
+      var makeVertex = new Function('positions', 'mover2D', 'mover3D', this.formula)
       /* eslint-enable */
-      var output = {
-        positions: []
-      }
-      makeVertex(output, mover, mover3D)
-      console.log(output)
+      makeVertex(positions, mover, mover3D)
+      console.log(positions)
 
-      this.maxPoints = output.positions.length / 3
+      this.maxPoints = positions.length / 3
       let geometry = new THREE.BufferGeometry()
 
       // attributes
-      geometry.addAttribute('position', new THREE.Float32BufferAttribute(output.positions, 3))
+      geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
 
       geometry.attributes.position.needsUpdate = true
 

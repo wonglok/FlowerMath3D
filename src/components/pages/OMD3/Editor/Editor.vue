@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="plotters" :key="plotter.id" v-for="plotter in plotters">
+    <!-- <div class="plotters" :key="current.id" v-for="plotter in plotters"> -->
       <div class="plotter">
-        <input type="text" v-model="plotter.color">
-        <input class="color" type="color" v-model="plotter.color">
-        <input type="range" min="0" max="1.0" step="0.00001" v-model="plotter.stepper">
-        <button @click="cloneThis(plotter)">Clone me</button>
+        <input type="text" v-model="current.color">
+        <input class="color" type="color" v-model="current.color">
+        <input type="range" min="0" max="1.0" step="0.00001" v-model="current.stepper">
+        <button @click="cloneThis(current)">Clone me</button>
         <ACE
           @save="() => {
           }"
-          :path="plotter.id + '.js'"
-          v-model="plotter.formula"
+          :path="current.id + '.js'"
+          v-model="current.formula"
           @input="() => { isDirty = true; }"
           theme="chrome"
           width="100%"
@@ -18,7 +18,7 @@
         >
         </ACE>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -27,6 +27,7 @@ import ACE from '@/components/shared/ACE/ACE.vue'
 
 export default {
   props: {
+    current: {},
     plotters: {}
   },
   components: {
