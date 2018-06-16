@@ -1,12 +1,11 @@
 <template>
 <div class="editor-2D">
 
-  <pre>{{ coder.getCode(current.blockers.tree, current.blockers.tree.id) }}</pre>
 
   <input type="text" v-model="current.color">
   <input class="color" type="color" v-model="current.color">
   <input type="range" min="0" max="1.0" step="0.00001" v-model="current.stepper">
-  <button @click="cloneThis(current)">Clone me</button>
+  <button @click="$emit('clone', current)">Clone me</button>
 
   <div class="horizontal">
     <ul v-if="tools">
@@ -16,14 +15,26 @@
       />
     </ul>
 
-    <ul v-if="current && current.blockers && current.blockers.tree">
-      <LoopItem
-        class="item"
-        :model="current.blockers.tree"
-      />
-    </ul>
+    <div>
+      <ul v-if="current && current.blockers && current.blockers.bin">
+        <LoopItem
+          class="item"
+          :mode="'bin'"
+          :model="current.blockers.bin"
+        />
+      </ul>
+      <ul v-if="current && current.blockers && current.blockers.tree">
+        <LoopItem
+          class="item"
+          :model="current.blockers.tree"
+        />
+      </ul>
+    </div>
+
 
   </div>
+  <pre>{{ coder.getCode(current.blockers.tree, current.blockers.tree.id) }}</pre>
+
   <!-- <pre>{{ demo.tree }}</pre> -->
 
 </div>
@@ -71,7 +82,6 @@ export default {
     }
   },
   methods: {
-
   }
 }
 </script>

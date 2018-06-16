@@ -7,9 +7,9 @@
     >
 
       <span v-if="model.type === 'repeat'">{{ model.type }} <input class="num" type="text" v-model="model.data.times" /> </span>
-      <span v-else-if="model.type === 'mover.moveBy'">{{ model.type }} <input class="num" type="text" v-model="model.data.amount" /> </span>
-      <span v-else-if="model.type === 'mover.turnBy'">{{ model.type }} <input class="num" type="text" v-model="model.data.amount" /> </span>
-      <span v-else-if="model.type === 'mover.usePlane'">
+      <span v-else-if="model.type === 'mover2D.moveBy'">{{ model.type }} <input class="num" type="text" v-model="model.data.amount" /> </span>
+      <span v-else-if="model.type === 'mover2D.turnBy'">{{ model.type }} <input class="num" type="text" v-model="model.data.amount" /> </span>
+      <span v-else-if="model.type === 'mover2D.usePlane'">
         {{ model.type }}
         <select class="selector" type="text" v-model="model.data.usePlane">
           <option value="xy">xy</option>
@@ -35,7 +35,8 @@
         </select>
         <input class="num" type="text" v-model="model.data.value" />
       </span>
-      <span v-else>{{ model.type }}</span>
+      <span v-else-if="mode === 'bin' && $parent.mode !== 'bin'">{{ model.type }} <button class="empty" @click="emptyTrash">Empty Trash</button></span>
+      <span v-else>{{ model.type }} </span>
 
       <!-- <span v-if="isFolder">[{{ open ? '-' : '+' }}]</span> -->
     </div>
@@ -66,6 +67,7 @@ let output = {
     draggable
   },
   props: {
+    mode: {},
     model: Object
   },
   beforeCreate () {
@@ -122,6 +124,9 @@ let output = {
           comment: '// please type some note'
         }
       })
+    },
+    emptyTrash () {
+      this.model.children = []
     }
   },
   mounted () {

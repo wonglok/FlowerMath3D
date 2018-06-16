@@ -35,10 +35,11 @@ export default {
   },
   methods: {
     cloneThis (item) {
-      var newItem = JSON.parse(JSON.stringify(item))
-      newItem.id = Math.random() + ''
-      newItem.color = `hsl(${Math.floor(Math.random() * 360)}, 50%, 50%)`
-      this.plotters.push(newItem)
+      this.$emit('clone', item)
+      // var newItem = JSON.parse(JSON.stringify(item))
+      // newItem.id = Math.random() + ''
+      // newItem.color = `hsl(${Math.floor(Math.random() * 360)}, 50%, 50%)`
+      // this.plotters.push(newItem)
     }
   },
   data () {

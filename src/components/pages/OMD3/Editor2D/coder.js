@@ -33,7 +33,7 @@ export const makeTools = () => {
         id: rID(),
         put: true,
         pull: true,
-        type: 'mover.usePlane',
+        type: 'mover2D.usePlane',
         data: {
           usePlane: 'xy'
         }
@@ -42,7 +42,7 @@ export const makeTools = () => {
         id: rID(),
         put: true,
         pull: true,
-        type: 'mover.moveBy',
+        type: 'mover2D.moveBy',
         data: {
           amount: 1
         }
@@ -51,7 +51,7 @@ export const makeTools = () => {
         id: rID(),
         put: true,
         pull: true,
-        type: 'mover.turnBy',
+        type: 'mover2D.turnBy',
         data: {
           amount: 1
         }
@@ -69,7 +69,7 @@ export const makeTools = () => {
             id: rID(),
             put: false,
             pull: false,
-            type: 'mover.moveBy',
+            type: 'mover2D.moveBy',
             data: {
               amount: 1
             }
@@ -93,6 +93,11 @@ export const makeTemplate = () => {
 
 export const makeDemo1 = () => {
   return {
+    bin: {
+      type: 'recycle bin',
+      children: [
+      ]
+    },
     tree: {
       type: 'program entry point',
       children: [
@@ -130,7 +135,7 @@ export const makeDemo1 = () => {
               id: rID(),
               put: true,
               pull: true,
-              type: 'mover.turnBy',
+              type: 'mover2D.turnBy',
               data: {
                 amount: 'angleInc'
               }
@@ -139,7 +144,7 @@ export const makeDemo1 = () => {
               id: rID(),
               put: true,
               pull: true,
-              type: 'mover.moveBy',
+              type: 'mover2D.moveBy',
               data: {
                 amount: 1
               }
@@ -241,13 +246,13 @@ export const make = () => {
         if (item.type === 'repeat') {
           accu += this.getRepeat(item, id)
         }
-        if (item.type === 'mover.moveBy') {
+        if (item.type === 'mover2D.moveBy') {
           accu += this.getMoverMove(item, id)
         }
-        if (item.type === 'mover.turnBy') {
+        if (item.type === 'mover2D.turnBy') {
           accu += this.getMoverTurnBy(item, id)
         }
-        if (item.type === 'mover.usePlane') {
+        if (item.type === 'mover2D.usePlane') {
           accu += this.getMoverUsePlane(item, id)
         }
         if (item.type === 'variable') {

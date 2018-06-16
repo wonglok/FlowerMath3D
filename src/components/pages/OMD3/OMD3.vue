@@ -13,8 +13,8 @@
       />
     </div>
 
-    <Editor v-if="current && current.type === 'code'" :current="current" :plotters="plotters" />
-    <Editor2D v-if="current && current.type === 'blockers'" :current="current" />
+    <Editor v-if="current && current.type === 'code'" :current="current" :plotters="plotters" @clone="cloneMe" />
+    <Editor2D v-if="current && current.type === 'blockers'" :current="current" @clone="cloneMe" />
   </div>
 
 </div>
@@ -143,6 +143,14 @@ for (var i = 0; i < max; i++) {
   },
   mounted () {
     this.current = this.plotters.find(e => e.type === 'blockers')
+  },
+  methods: {
+    cloneMe (item) {
+      var newItem = JSON.parse(JSON.stringify(item))
+      newItem.id = Math.random() + ''
+      newItem.color = `hsl(${Math.floor(Math.random() * 360)}, 50%, 50%)`
+      this.plotters.push(newItem)
+    }
   }
 }
 </script>
@@ -157,7 +165,7 @@ for (var i = 0; i < max; i++) {
   position: fixed;
   top: 0px;
   left: 0px;
-  width: calc(100% - 50vw);
+  width: calc(100% - 60vw);
   height: calc(100% - 100px);
 }
 .editor{
@@ -165,7 +173,7 @@ for (var i = 0; i < max; i++) {
   position: absolute;
   top: 0px;
   right: 0px;
-  width: 50vw;
+  width: 60vw;
   /* height: 100%; */
   height: calc(100% - 100px);
 
