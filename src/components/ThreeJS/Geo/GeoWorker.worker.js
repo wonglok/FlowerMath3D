@@ -3,7 +3,7 @@ import * as THREE from 'three'
 onmessage = (evt) => {
   var self = this
   self.localStorage = {}
-  self.idb = {}
+  self.indexedDB = {}
 
   var formula = evt.data.formula
 
