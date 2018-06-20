@@ -1,6 +1,10 @@
 import * as THREE from 'three'
 
 onmessage = (evt) => {
+  var self = this
+  self.localStorage = {}
+  self.idb = {}
+
   var formula = evt.data.formula
 
   let positions = []
