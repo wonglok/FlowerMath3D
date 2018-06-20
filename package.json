@@ -42,8 +42,7 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue2-ace-editor": "0.0.9",
-    "vuedraggable": "^2.16.0",
-    "worker-loader": "^1.1.1"
+    "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",
@@ -92,7 +91,8 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.19.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "worker-loader": "^1.1.1"
   },
   "engines": {
     "node": ">= 4.0.0",
