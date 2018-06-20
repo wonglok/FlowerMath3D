@@ -1,5 +1,8 @@
 <template>
-  <div class="geo-box"></div>
+  <div class="geo-box">
+    <iframe :ref="'sandbox-frame'" sandbox="allow-same-origin allow-scripts"
+            class="sandboxed"></iframe>
+  </div>
 </template>
 
 <script>
@@ -17,6 +20,7 @@ export default {
   },
   data () {
     return {
+      iFrameURL: '',
       updateDrawRage () {},
       worker: false,
       Worker,
@@ -30,15 +34,15 @@ export default {
       this.updateDrawRage()
     },
     formula () {
-      this.setup()
+      this.setupWorker()
     }
   },
   mounted () {
     this.$parent.$emit('geometry', new THREE.BoxBufferGeometry(0.01, 0.01, 0.01, 1, 1, 1))
-    this.setup()
+    this.setupWorker()
   },
   methods: {
-    setup () {
+    setupWorker () {
       if (this.worker) {
         this.worker.terminate()
       }
@@ -73,6 +77,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.sandboxed{
+  display: none;
+}
 </style>

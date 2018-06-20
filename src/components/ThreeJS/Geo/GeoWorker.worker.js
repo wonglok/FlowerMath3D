@@ -1,9 +1,12 @@
 import * as THREE from 'three'
+var self = this
 
 onmessage = (evt) => {
-  var self = this
+  self.sessionStroage = {}
   self.localStorage = {}
   self.indexedDB = {}
+  self.console = {}
+  self.importScripts = {}
 
   var formula = evt.data.formula
 
@@ -93,6 +96,6 @@ onmessage = (evt) => {
   var makeVertex = new Function('positions', 'mover2D', 'mover3D', formula)
   /* eslint-enable */
   makeVertex(positions, mover, mover3D)
-  console.log(positions)
+  // console.log(positions)
   postMessage({ positions })
 }
